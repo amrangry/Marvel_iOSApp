@@ -70,6 +70,8 @@ NSArray *comicsItems;
     }else{
     
        coverImage.image=_marvelCharacterObj.imgThumbnil;
+        imageProgress.hidden=YES;
+        [imageProgress stopAnimating];
     }
     
     

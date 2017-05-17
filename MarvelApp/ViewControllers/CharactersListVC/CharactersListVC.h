@@ -18,6 +18,7 @@
     
     __weak IBOutlet UIImageView *doneLoadingGifImage;
 
+    __weak IBOutlet UIImageView *centerLogo;
     
     
      IBOutlet UISearchBar *searchBarView;

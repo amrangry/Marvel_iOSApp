@@ -306,6 +306,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="centerLogo" destination="oA1-Sx-6qH" id="kWx-64-biF"/>
                         <outlet property="charactersTableView" destination="6Qa-b6-Cd4" id="JoF-Qu-bWD"/>
                         <outlet property="doneLoadingGifImage" destination="Lls-3K-eEv" id="uXY-4z-mtC"/>
                         <outlet property="searchBarView" destination="DEK-zP-xwf" id="4D7-BI-z86"/>

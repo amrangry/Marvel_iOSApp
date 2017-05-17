@@ -81,8 +81,9 @@ bool isSearchViewEnable;
     isSearchViewEnable =! isSearchViewEnable;
     
     topBarView.hidden = isSearchViewEnable;
+    topBarSearchView.hidden = !isSearchViewEnable;
     
-    [self.charactersTableView reloadData];
+   // [self.charactersTableView reloadData];
 }
 
 -(void) setOffsetWith:(NSInteger) value{
@@ -243,7 +244,7 @@ bool isSearchViewEnable;
             [cell.imageProgress startAnimating];
             
             if (isSearchViewEnable) {
-                imageVarinetName= @"/standard_medium.jpg";
+                imageVarinetName= @"/portrait_incredible.jpg";
               }else{
                 imageVarinetName = @"/landscape_amazing.jpg";
              }
@@ -336,6 +337,8 @@ bool isSearchViewEnable;
     [httpClient invokeAPI:url method:HTTPRequestGET parameters:params paramterFormat:paramterStructureTypeNone contentTypeValue:ContentTypeValue_None customContentTypeValueForHTTPHeaderField:nil onSuccess:^(NSData * _Nullable data) {
         [self.charactersTableView.pullToRefreshView stopAnimating];
         [self.charactersTableView.infiniteScrollingView stopAnimating];
+        doneLoadingGifImage.hidden=YES;
+        centerLogo.hidden=YES;
         //[MBProgressHUD hideHUDForView:self.view animated:YES];
        
         // success:
@@ -366,7 +369,8 @@ bool isSearchViewEnable;
         NSLog(@"%@", error);
         [self.charactersTableView.pullToRefreshView stopAnimating];
         [self.charactersTableView.infiniteScrollingView stopAnimating];
-        
+        doneLoadingGifImage.hidden=YES;
+          centerLogo.hidden=YES;
       // [MBProgressHUD hideHUDForView:self.view animated:YES];
        /* 
         // Offline  test
