@@ -1,6 +1,6 @@
 # Marvel_iOSApp
-Demo for Marvel iOS Application 
-
+Demo for Marvel's Characters 
+REST Api for iOS using Objective C
 
 
 Application Description / Details:
@@ -35,5 +35,8 @@ first API call, except for the images to be presented on the
 comics/series/stories/events sections. Those images can be fetched from the
 resourceURI and should be lazy loaded. That same behavior is expected
 when expanding those images.
+
+
+
 
 
