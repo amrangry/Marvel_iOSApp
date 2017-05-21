@@ -24,8 +24,9 @@
                 } else if ([key isEqualToString:@"description"]) {
                     NSString *value=[JSONDictionary objectForKey:@"description"];
                     [self setValue:value forKey:@"descriptionMarvelCharacter"];
-                } else{
-                    [self setValue:[JSONDictionary valueForKey:key] forKey:key];}
+                }else{
+                    [self setValue:[JSONDictionary valueForKey:key] forKey:key];
+                }
             }
             
         }

@@ -316,7 +316,7 @@
                         <outlet property="centerLogo" destination="oA1-Sx-6qH" id="kWx-64-biF"/>
                         <outlet property="charactersTableView" destination="6Qa-b6-Cd4" id="JoF-Qu-bWD"/>
                         <outlet property="doneLoadingGifImage" destination="Lls-3K-eEv" id="uXY-4z-mtC"/>
-                        <outlet property="searchBarView" destination="DEK-zP-xwf" id="4D7-BI-z86"/>
+                        <outlet property="searchBarController" destination="DEK-zP-xwf" id="evh-24-p9X"/>
                         <outlet property="topBarSearchView" destination="PUF-rD-pil" id="sIC-HL-QrG"/>
                         <outlet property="topBarView" destination="fkz-DA-2oA" id="rXu-S1-lk1"/>
                         <outlet property="topBarViewHUD" destination="Ajb-Q0-GFF" id="hgt-ir-vZh"/>
@@ -610,13 +610,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Backicon" width="50" height="50"/>
+        <image name="Backicon" width="28" height="28"/>
         <image name="Placeholder_couple_superhero" width="640" height="450"/>
         <image name="bg-cell-title" width="160" height="36"/>
         <image name="cancelIcon" width="50" height="50"/>
         <image name="marvel-gif.gif" width="330" height="450"/>
-        <image name="marvel-logo" width="816" height="369"/>
+        <image name="marvel-logo" width="62" height="28"/>
         <image name="placeholder2_marvel" width="129" height="129"/>
-        <image name="searchIcon" width="50" height="50"/>
+        <image name="searchIcon" width="28" height="28"/>
     </resources>
 </document>

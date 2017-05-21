@@ -20,11 +20,17 @@
 
 #import "SVPullToRefresh.h"
 
+
+#import "BFRadialWaveHUD.h"
+
+
 @implementation CharactersListVC
 
 NSMutableArray *charsItemsArray;
 NSMutableArray *charsItemsArraySearchResults;
 bool isSearchViewEnable;
+
+
 
 
 
@@ -47,7 +53,7 @@ bool isSearchViewEnable;
     //set delgates
     [self.charactersTableView setDelegate:self];
     [self.charactersTableView setDataSource:self];
-    searchBarView.delegate = self;
+    _searchBarController.delegate = self;
     
     
     
@@ -83,7 +89,7 @@ bool isSearchViewEnable;
     topBarView.hidden = isSearchViewEnable;
     topBarSearchView.hidden = !isSearchViewEnable;
     
-   // [self.charactersTableView reloadData];
+    
 }
 
 -(void) setOffsetWith:(NSInteger) value{
@@ -91,22 +97,77 @@ bool isSearchViewEnable;
     offsetWebServiceResults=offsetWebServiceResults + value;
 }
 
-#pragma -mark - SearchBar
--(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    [searchBarView resignFirstResponder];
-    
-    [self serachBtnPressed:nil];
-}
+
+#pragma mark - Search Bar Delegates -
+#pragma mark  Autocomplete SearchBar methods -
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    [searchBarView resignFirstResponder];
+   
+  
+    [self searchAutocompleteWithSubstring:self.substring];
+    [self.searchBarController resignFirstResponder];
+    //[self.charactersTableView reloadData];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", searchBar.text];
-   charsItemsArraySearchResults = [[charsItemsArray filteredArrayUsingPredicate:predicate] mutableCopy];
-    [self.charactersTableView reloadData];
-   // [self loadDataForSearchKey:searchBarView.text];
 }
 
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    [_searchBarController resignFirstResponder];
+    
+    [self serachBtnPressed:nil];
+    
+    [self.charactersTableView reloadData];
+}
+
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    
+    NSString *searchWordProtection = [self.searchBarController.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+    if (searchWordProtection.length > 0) {
+        
+        [self searchAutocompleteWithSubstring:searchWordProtection];
+        
+    } else {
+        
+    }
+}
+
+-(BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    
+    self.substring = [NSString stringWithString:self.searchBarController.text];
+   // self.substring= [self.substring stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+    self.substring = [self.substring stringByReplacingCharactersInRange:range withString:text];
+    
+//    if ([self.substring hasPrefix:@"+"] && self.substring.length >1) {
+//        self.substring  = [self.substring substringFromIndex:1];
+//    }
+    return YES;
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    //    [searchBar setShowsCancelButton:YES animated:YES];
+    
+}
+
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
+{
+    return YES;
+}
+
+
+
+- (void)searchAutocompleteWithSubstring:(NSString *)substring
+{
+   
+    // @"name contains[cd] %@"
+    // @"ANY keywords.name CONTAINS[c] %@"
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", substring];
+    
+    
+    NSArray *arrayToBeSearched = [charsItemsArray copy];
+    charsItemsArraySearchResults = [[arrayToBeSearched filteredArrayUsingPredicate:predicate] mutableCopy];
+    [self.charactersTableView reloadData];
+}
 
 
 
@@ -138,9 +199,26 @@ bool isSearchViewEnable;
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             
             topBarView.hidden=YES;
-            topBarSearchView.hidden=YES;
+            topBarSearchView.hidden=NO;
             topBarViewHUD.hidden=YES;
             numberOfSection=0;
+            
+            
+            // Display a message when the table is empty
+            UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+            
+            messageLabel.text = @"Sorry!\n No characters matchs that name\n Please type another name";
+            messageLabel.textColor = [UIColor whiteColor];
+            messageLabel.numberOfLines = 3;
+            messageLabel.textAlignment = NSTextAlignmentCenter;
+            // messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:20];
+            [messageLabel setFont:[UIFont fontWithName:@"Helvatic-Bold" size:20]];
+            
+            [messageLabel sizeToFit];
+            
+            tableView.backgroundView = messageLabel;
+           
+            
         }
     
     }else{
@@ -334,13 +412,26 @@ bool isSearchViewEnable;
    
     //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
+    BFRadialWaveHUD *hud = [[BFRadialWaveHUD alloc] initWithFullScreen:YES
+                                                               circles:6
+                                                           circleColor:nil
+                                                                  mode:BFRadialWaveHUDMode_Default
+                                                           strokeWidth:5.0f];
+    [hud setBlurBackground:YES];
+    hud.tapToDismiss = NO;
+    [hud disco:NO];
+    [hud showInView:self.view];
+
+
+    
+    
     [httpClient invokeAPI:url method:HTTPRequestGET parameters:params paramterFormat:paramterStructureTypeNone contentTypeValue:ContentTypeValue_None customContentTypeValueForHTTPHeaderField:nil onSuccess:^(NSData * _Nullable data) {
         [self.charactersTableView.pullToRefreshView stopAnimating];
         [self.charactersTableView.infiniteScrollingView stopAnimating];
         doneLoadingGifImage.hidden=YES;
         centerLogo.hidden=YES;
         //[MBProgressHUD hideHUDForView:self.view animated:YES];
-       
+        [hud dismiss];
         // success:
         
         NSError *jsonError;
@@ -371,6 +462,7 @@ bool isSearchViewEnable;
         [self.charactersTableView.infiniteScrollingView stopAnimating];
         doneLoadingGifImage.hidden=YES;
           centerLogo.hidden=YES;
+        [hud dismiss];
       // [MBProgressHUD hideHUDForView:self.view animated:YES];
        /* 
         // Offline  test

@@ -21,12 +21,16 @@
     __weak IBOutlet UIImageView *centerLogo;
     
     
-     IBOutlet UISearchBar *searchBarView;
+    // IBOutlet UISearchBar *searchBarView;
     
     NSInteger limitWebServiceResults ;
     NSInteger offsetWebServiceResults;
 }
 
+
+@property NSString *substring;
+@property(strong, nonatomic)  NSString *searchString;
+@property (strong, nonatomic) IBOutlet UISearchBar *searchBarController;
 
 - (IBAction)serachBtnPressed:(id)sender;
 
