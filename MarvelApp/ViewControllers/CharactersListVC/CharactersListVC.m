@@ -23,7 +23,6 @@
 
 #import "BFRadialWaveHUD.h"
 
-
 @implementation CharactersListVC
 
 NSMutableArray *charsItemsArray;
@@ -56,6 +55,13 @@ bool isSearchViewEnable;
     _searchBarController.delegate = self;
     
     
+    self.charactersTableView.emptyDataSetSource = self;
+    self.charactersTableView.emptyDataSetDelegate = self;
+    
+    // A little trick for removing the cell separators
+    self.charactersTableView.tableFooterView = [UIView new];
+    
+    
     
     // Setup pull and inifinte scrolling
     
@@ -70,6 +76,9 @@ bool isSearchViewEnable;
          [weakSelf getCharactersWithLimit:weakSelf->limitWebServiceResults andOffset:weakSelf->offsetWebServiceResults];
     }];
 
+    
+    
+    
     
     
     
@@ -186,7 +195,7 @@ bool isSearchViewEnable;
             tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
             tableView.backgroundView.hidden=YES;
             //tableView.hidden=NO;
-            
+           // tableView.backgroundColor = UIColor.clearColor;
             
             topBarView.hidden=YES;
             topBarSearchView.hidden=NO;
@@ -198,26 +207,12 @@ bool isSearchViewEnable;
         
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             
+            //tableView.backgroundColor= UIColor.whiteColor;
             topBarView.hidden=YES;
             topBarSearchView.hidden=NO;
             topBarViewHUD.hidden=YES;
             numberOfSection=0;
             
-            
-            // Display a message when the table is empty
-            UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-            
-            messageLabel.text = @"Sorry!\n No characters matchs that name\n Please type another name";
-            messageLabel.textColor = [UIColor whiteColor];
-            messageLabel.numberOfLines = 3;
-            messageLabel.textAlignment = NSTextAlignmentCenter;
-            // messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:20];
-            [messageLabel setFont:[UIFont fontWithName:@"Helvatic-Bold" size:20]];
-            
-            [messageLabel sizeToFit];
-            
-            tableView.backgroundView = messageLabel;
-           
             
         }
     
@@ -227,6 +222,7 @@ bool isSearchViewEnable;
         
         tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         tableView.backgroundView.hidden=YES;
+        //tableView.backgroundColor = UIColor.clearColor;
         //tableView.hidden=NO;
       
          numberOfSection = 1;
@@ -238,11 +234,14 @@ bool isSearchViewEnable;
         
        
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+       // tableView.backgroundColor = UIColor.whiteColor;
         
-        topBarView.hidden=YES;
+        topBarView.hidden=NO;
         topBarSearchView.hidden=YES;
          topBarViewHUD.hidden=YES;
         numberOfSection=0;
+        
+        
        }
     }
     return numberOfSection;
@@ -378,8 +377,57 @@ bool isSearchViewEnable;
      [self.navigationController pushViewController:vc animated:YES];
 }
 
+#pragma -mark DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+{
+    
+ 
+ 
+    
+    
+    UIView *emptyView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    [emptyView setBackgroundColor:[UIColor redColor]];
+    
+    self.charactersTableView.backgroundView=emptyView;
+    return [UIImage imageNamed:@"Placeholder_couple_superhero"];
+}
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
+    
+    NSString *msg;
+    if (isSearchViewEnable) {
+        
+        msg =  @"Sorry!\n No characters matchs that name\n Please type another name";
+        
+    }else{
+        
+        msg = @"   Sorry!\n no data found \n Please type again";
+        
+    }
+    
+    
+    // Display a message when the table is empty
+    
+    
+    
+    NSString *text = msg;
+    
+    NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
+    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraph.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17],
+                                 NSForegroundColorAttributeName: [UIColor blackColor],
+                                 NSParagraphStyleAttributeName: paragraph};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
 
 
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView
+{
+    return YES;
+}
 
 #pragma -mark webservice call
 -(void)getCharactersWithLimit:(NSInteger)limit andOffset:(NSInteger) offset{

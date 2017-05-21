@@ -28,11 +28,21 @@
 NSMutableArray * comicsThumbnilURIArray;
 NSArray *comicsItems;
 
+NSMutableArray * seriesThumbnilURIArray;
+NSArray *seriesItems;
+
+NSMutableArray * storiesThumbnilURIArray;
+NSArray *storiesItems;
+
+NSMutableArray * eventsThumbnilURIArray;
+NSArray *eventsItems;
 
 
 #pragma -mark viewController lifeCycle methods
 - (void)viewDidLoad {
     [super viewDidLoad];
+    scroll.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height* 2);
+    
     // Do any additional setup after loading the view.
 }
 
@@ -69,7 +79,7 @@ NSArray *comicsItems;
     
     }else{
     
-       coverImage.image=_marvelCharacterObj.imgThumbnil;
+        coverImage.image=_marvelCharacterObj.imgThumbnil;
         imageProgress.hidden=YES;
         [imageProgress stopAnimating];
     }
@@ -77,15 +87,50 @@ NSArray *comicsItems;
     
     comicsThumbnilURIArray=[NSMutableArray new];
     
+    MarvelCharacter *test=_marvelCharacterObj;
+    
     comicsItems=[_marvelCharacterObj.comics objectForKey:@"items"];
     
-    for (NSDictionary *comicsResource in comicsItems) {
+    seriesItems=[_marvelCharacterObj.series objectForKey:@"items"];
+    
+    eventsItems=[_marvelCharacterObj.events objectForKey:@"items"];
+    
+    storiesItems=[_marvelCharacterObj.stories objectForKey:@"items"];
+    
+    for (NSDictionary *resource in comicsItems) {
         
-        NSString *resourceURI = [comicsResource objectForKey:@"resourceURI"];
-        
+        NSString *resourceURI = [resource objectForKey:@"resourceURI"];
         
         [self getComicObjectForResource:resourceURI];
-       // [resourcesURIArray addObject:resourceURI];
+        // [resourcesURIArray addObject:resourceURI];
+        
+    }
+    
+    
+    for (NSDictionary *resource in seriesItems) {
+        
+        NSString *resourceURI = [resource objectForKey:@"resourceURI"];
+        
+        [self getSeriesObjectForResource:resourceURI];
+        // [resourcesURIArray addObject:resourceURI];
+        
+    }
+    
+    for (NSDictionary *resource in eventsItems) {
+        
+        NSString *resourceURI = [resource objectForKey:@"resourceURI"];
+        
+        [self getEventsObjectForResource:resourceURI];
+        // [resourcesURIArray addObject:resourceURI];
+        
+    }
+    
+    for (NSDictionary *resource in storiesItems) {
+        
+        NSString *resourceURI = [resource objectForKey:@"resourceURI"];
+        
+        [self getStoriesObjectForResource:resourceURI];
+        // [resourcesURIArray addObject:resourceURI];
         
     }
     
@@ -117,7 +162,26 @@ NSArray *comicsItems;
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return  comicsThumbnilURIArray.count;
+    
+    NSInteger count = 0;
+    if (collectionView == comicsCollectionView) {
+        count =  comicsThumbnilURIArray.count;
+    }else if (collectionView == eventsCollectionView){
+        count=eventsThumbnilURIArray.count;
+       // count=eventsItems.count;
+    }else if (collectionView == seriesCollectionView){
+    
+        count = seriesThumbnilURIArray.count;
+        //count= seriesItems.count;
+        
+    }else if (collectionView == stroiesCollectionView){
+    
+        count=storiesThumbnilURIArray.count;
+        //count=storiesItems;
+    }
+    
+    count =  comicsThumbnilURIArray.count;
+    return  count;
     
 }
 
@@ -132,8 +196,27 @@ NSArray *comicsItems;
     
     
     
-    NSString * thumbNilImagURI = [comicsThumbnilURIArray objectAtIndex:indexPath.row];
-    NSString * imageVarinetName = @"/portrait_incredible.jpg";
+    if (cell == nil) {
+        //cell= [[ComicsCollectionViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        
+       // cell = [[ComicsCollectionViewCell alloc]initw]
+        NSLog(@"");
+    }
+    
+    NSString * thumbNilImagURI;
+    if (collectionView == comicsCollectionView) {
+       thumbNilImagURI = [comicsThumbnilURIArray objectAtIndex:indexPath.row];
+    }else if (collectionView == eventsCollectionView){
+       thumbNilImagURI = [eventsThumbnilURIArray objectAtIndex:indexPath.row];
+    }else if (collectionView == seriesCollectionView){
+       thumbNilImagURI = [seriesThumbnilURIArray objectAtIndex:indexPath.row];
+    }else if (collectionView == stroiesCollectionView){
+        thumbNilImagURI = [storiesThumbnilURIArray objectAtIndex:indexPath.row];
+    }
+    
+    
+     thumbNilImagURI = [comicsThumbnilURIArray objectAtIndex:indexPath.row];
+        NSString * imageVarinetName = @"/portrait_incredible.jpg";
     
     
         
@@ -268,12 +351,233 @@ NSArray *comicsItems;
         
         if (comicsThumbnilURIArray.count >= comicsItems.count) {
             [comicsCollectionView reloadData];
+            [eventsCollectionView reloadData];
+            [seriesCollectionView reloadData];
+            [stroiesCollectionView reloadData];
         }
         
     } andFailure:^(NSString * _Nonnull error) {
         NSLog(@"%@", error);
     }];
     
+}
+
+-(void)getStoriesObjectForResource:(NSString *)resourceURI{
+    
+    
+    HttpClient * httpClient =[HttpClient sharedInstance];
+    
+    
+    NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
+    // NSTimeInterval is defined as double
+    NSNumber *timeStampObj = [NSNumber numberWithDouble: timeStamp];
+    
+    
+    // md5(ts+privateKey+publicKey)
+    NSString *md5BuilderString=[NSString stringWithFormat:@"%@%@%@",timeStampObj,private_key,public_key];
+    NSString *hashedMD5BuilderString=[self md5:md5BuilderString];
+    
+    
+    
+    NSMutableDictionary *params =[NSMutableDictionary new];
+    
+    [params setObject:public_key forKey:@"apikey"];
+    [params setObject:timeStampObj forKey:@"ts"];
+    [params setObject:hashedMD5BuilderString forKey:@"hash"];
+    
+    
+    NSString *url =[NSString stringWithFormat:@"%@",resourceURI];
+    
+    [httpClient invokeAPI:url method:HTTPRequestGET parameters:params paramterFormat:paramterStructureTypeNone contentTypeValue:ContentTypeValue_None customContentTypeValueForHTTPHeaderField:nil onSuccess:^(NSData * _Nullable data) {
+        
+        
+        // success: do something with returned data
+        
+        NSError *jsonError;
+        NSDictionary *Json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
+        
+        MarvelResponseDataWrapper * marvelResponseDataWrapper =[[MarvelResponseDataWrapper alloc] initWithDictionary:Json];
+        
+        
+        for (NSDictionary *dict in marvelResponseDataWrapper.results) {
+            
+            
+            NSDictionary * thumbnailDict = [dict objectForKey:@"thumbnail"];
+            if (!([thumbnailDict isKindOfClass:[NSNull class]])) {
+                
+                NSString * thumbNilImagURI = [thumbnailDict objectForKey:@"path"];
+                 [storiesThumbnilURIArray addObject:thumbNilImagURI];
+            }
+            
+           
+            
+        }
+        
+        
+        if (storiesThumbnilURIArray.count >= storiesItems.count) {
+          
+            [stroiesCollectionView reloadData];
+        }
+        
+    } andFailure:^(NSString * _Nonnull error) {
+        NSLog(@"%@", error);
+    }];
+    
+}
+
+
+-(void)getEventsObjectForResource:(NSString *)resourceURI{
+    
+    
+    HttpClient * httpClient =[HttpClient sharedInstance];
+    
+    
+    NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
+    // NSTimeInterval is defined as double
+    NSNumber *timeStampObj = [NSNumber numberWithDouble: timeStamp];
+    
+    
+    // md5(ts+privateKey+publicKey)
+    NSString *md5BuilderString=[NSString stringWithFormat:@"%@%@%@",timeStampObj,private_key,public_key];
+    NSString *hashedMD5BuilderString=[self md5:md5BuilderString];
+    
+    
+    
+    NSMutableDictionary *params =[NSMutableDictionary new];
+    
+    [params setObject:public_key forKey:@"apikey"];
+    [params setObject:timeStampObj forKey:@"ts"];
+    [params setObject:hashedMD5BuilderString forKey:@"hash"];
+    
+    
+    NSString *url =[NSString stringWithFormat:@"%@",resourceURI];
+    
+    [httpClient invokeAPI:url method:HTTPRequestGET parameters:params paramterFormat:paramterStructureTypeNone contentTypeValue:ContentTypeValue_None customContentTypeValueForHTTPHeaderField:nil onSuccess:^(NSData * _Nullable data) {
+        
+        
+        // success: do something with returned data
+        
+        NSError *jsonError;
+        NSDictionary *Json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
+        
+        MarvelResponseDataWrapper * marvelResponseDataWrapper =[[MarvelResponseDataWrapper alloc] initWithDictionary:Json];
+        
+        
+        for (NSDictionary *dict in marvelResponseDataWrapper.results) {
+            
+            
+            NSDictionary * thumbnailDict = [dict objectForKey:@"thumbnail"];
+            if (thumbnailDict) {
+                
+                
+            NSString * thumbNilImagURI = [thumbnailDict objectForKey:@"path"];
+            
+            [eventsThumbnilURIArray addObject:thumbNilImagURI];
+            }
+        }
+        
+        
+        if (eventsThumbnilURIArray.count >= eventsItems.count) {
+           
+            [eventsCollectionView reloadData];
+            
+        }
+        
+    } andFailure:^(NSString * _Nonnull error) {
+        NSLog(@"%@", error);
+    }];
+    
+}
+
+
+
+-(void)getSeriesObjectForResource:(NSString *)resourceURI{
+    
+    
+    HttpClient * httpClient =[HttpClient sharedInstance];
+    
+    
+    NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
+    // NSTimeInterval is defined as double
+    NSNumber *timeStampObj = [NSNumber numberWithDouble: timeStamp];
+    
+    
+    // md5(ts+privateKey+publicKey)
+    NSString *md5BuilderString=[NSString stringWithFormat:@"%@%@%@",timeStampObj,private_key,public_key];
+    NSString *hashedMD5BuilderString=[self md5:md5BuilderString];
+    
+    
+    
+    NSMutableDictionary *params =[NSMutableDictionary new];
+    
+    [params setObject:public_key forKey:@"apikey"];
+    [params setObject:timeStampObj forKey:@"ts"];
+    [params setObject:hashedMD5BuilderString forKey:@"hash"];
+    
+    
+    NSString *url =[NSString stringWithFormat:@"%@",resourceURI];
+    
+    [httpClient invokeAPI:url method:HTTPRequestGET parameters:params paramterFormat:paramterStructureTypeNone contentTypeValue:ContentTypeValue_None customContentTypeValueForHTTPHeaderField:nil onSuccess:^(NSData * _Nullable data) {
+        
+        
+        // success: do something with returned data
+        
+        NSError *jsonError;
+        NSDictionary *Json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
+        
+        MarvelResponseDataWrapper * marvelResponseDataWrapper =[[MarvelResponseDataWrapper alloc] initWithDictionary:Json];
+        
+        
+        for (NSDictionary *dict in marvelResponseDataWrapper.results) {
+            
+            
+            NSDictionary * thumbnailDict = [dict objectForKey:@"thumbnail"];
+            NSString * thumbNilImagURI = [thumbnailDict objectForKey:@"path"];
+            
+            [seriesThumbnilURIArray addObject:thumbNilImagURI];
+            
+        }
+        
+        
+        if (seriesThumbnilURIArray.count >= seriesItems.count) {
+            [seriesCollectionView reloadData];
+           
+        }
+        
+    } andFailure:^(NSString * _Nonnull error) {
+        NSLog(@"%@", error);
+    }];
+    
+}
+
+#pragma -mark DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
+
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
+    
+    NSString *msg= @"   Loading ... . ";;
+  
+    // Display a message when the table is empty
+    
+    
+    
+    NSString *text = msg;
+    
+    NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
+    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraph.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17],
+                                 NSForegroundColorAttributeName: [UIColor whiteColor],
+                                 NSParagraphStyleAttributeName: paragraph};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView
+{
+    return YES;
 }
 
 @end

@@ -9,11 +9,14 @@
 #import "ParentUIViewController.h"
 #import "MarvelCharacter.h"
 
-@interface CharacterDetailsViewController : ParentUIViewController<UICollectionViewDataSource,UICollectionViewDelegate>
+#import "UIScrollView+EmptyDataSet.h"
 
+
+@interface CharacterDetailsViewController : ParentUIViewController<UICollectionViewDataSource,UICollectionViewDelegate,DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 {
 
-
+    IBOutlet UIScrollView *scroll;
+    
     __weak IBOutlet UILabel *name;
     __weak IBOutlet UILabel *descriptionTxt;
     
@@ -23,6 +26,12 @@
     
     IBOutlet UICollectionView *comicsCollectionView;
     
+    IBOutlet UICollectionView *stroiesCollectionView;
+    
+    IBOutlet UICollectionView *eventsCollectionView;
+    
+    
+    IBOutlet UICollectionView * seriesCollectionView;
 }
 @property (weak, nonatomic) MarvelCharacter *marvelCharacterObj;
 @property (nonatomic) bool isLoadingCoverImage;

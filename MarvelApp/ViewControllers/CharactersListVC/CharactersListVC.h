@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "ParentUIViewController.h"
 
-@interface CharactersListVC : ParentUIViewController <UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>{
+#import "UIScrollView+EmptyDataSet.h"
+
+@interface CharactersListVC : ParentUIViewController <UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>{
 
     
     __weak IBOutlet UIView *topBarViewHUD;
