@@ -15,8 +15,6 @@ target 'MarvelApp' do
   pod 'JSONModel'
   pod 'DZNEmptyDataSet'
 
-   use_frameworks!
-   pod 'PromiseKit'
 
   target 'MarvelAppTests' do
     inherit! :search_paths
