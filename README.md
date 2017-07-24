@@ -1,12 +1,10 @@
 # Marvel_iOSApp
-Demo for Marvel's Characters 
-REST Api for iOS using Objective C
+## Demo for Marvel's Characters ##
+### REST Api for iOS using Objective C ###
 
 
 
-
-
-Application Description / Details:
+# Application Description / Details:
 
 Using this application, users will be able to browse through the Marvel
 library of characters. 
@@ -21,7 +19,7 @@ https://marvelapp.com/279b309
 assets: http://bit.ly/1LcMgwO
 
 
-
+# Story
 List of Characters
 In this view, you should present a list of characters loaded from the Marvel
 API character index. Notice that the when reaching the end of the list, if there
@@ -40,6 +38,11 @@ resourceURI and should be lazy loaded. That same behavior is expected
 when expanding those images.
 
 
-
+# Gonfiguration
+## you need to setup pod first before you can run to do that follow the following ##
+* open terminal from finder
+* $ cd ../Project folder 
+* $ pod setup
+* $ pod install
 
 
