@@ -37,12 +37,19 @@ comics/series/stories/events sections. Those images can be fetched from the
 resourceURI and should be lazy loaded. That same behavior is expected
 when expanding those images.
 
+### Prerequisites
+You need to setup pod first before you can run to do that follow the following 
 
-# Gonfiguration
-## you need to setup pod first before you can run to do that follow the following ##
+```
 * open terminal from finder
 * $ cd ../Project folder 
 * $ pod setup
 * $ pod install
+
+```
+
+
+
+
 
 
