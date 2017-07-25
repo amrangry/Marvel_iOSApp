@@ -50,6 +50,8 @@ You need to setup pod first before you can run to do that follow the following
 
 ![alt text](https://ibb.co/bCPB4k)
 ![ScreenShot](https://ibb.co/bCPB4k)
-
+<p align="center">
+<img style="-webkit-user-select: none;" src="https://ibb.co/bCPB4k">
+</p>
 
 
