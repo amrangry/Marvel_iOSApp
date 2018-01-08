@@ -1,7 +1,7 @@
 # Marvel_iOSApp
 ## Demo for Marvel's Characters ##
 ### REST Api for iOS using Objective C ###
-
+A picture says a thousand words
 ![Alt text](https://github.com/amrangry/Marvel_iOSApp/blob/master/Objective-c-logo.png?raw=true "Objective C")
 
 
