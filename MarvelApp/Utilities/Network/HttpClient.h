@@ -16,9 +16,9 @@ typedef enum {
     ContentTypeValue_ApplicationJson  = 0,
     ContentTypeValue_MultipartFormData = 1,
     ContentTypeValue_Application_x_www_form_urlencoded=2,
-    ContentTypeValue_Custom = 99,ContentTypeValue_None=100,
-    ContentTypeValue_MultiValues=200
-    
+    ContentTypeValue_Custom = 99,
+     ContentTypeValue_None = 100,
+    ContentTypeValue_MultiValues = 200
 }ContentTypeValue;
 
 typedef enum {
