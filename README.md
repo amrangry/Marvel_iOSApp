@@ -1,17 +1,11 @@
 # Marvel_iOSApp
 ## Demo for Marvel's Characters ##
-### REST Api for iOS using Objective C ###
-
-
-![Alt text](https://github.com/amrangry/Marvel_iOSApp/blob/master/Objective-c-logo.png?raw=true "Objective C")
-
 
 ```ruby
 A picture says a thousand words
 ```
 
 ![Alt text](https://github.com/amrangry/Marvel_iOSApp/blob/master/logo.png?raw=true "sample")
-
 
 ### Prerequisites
 1 - You need to setup pod first before you can run to do that follow the following 
@@ -30,7 +24,6 @@ A picture says a thousand words
 #define private_key @"<your private key>"
 
 ```
-
 
 # Application Description / Details:
 Using this application, users will be able to browse through the Marvel
