@@ -20,7 +20,6 @@
 
 #import "SVPullToRefresh.h"
 
-
 #import "BFRadialWaveHUD.h"
 
 @implementation CharactersListVC
@@ -28,11 +27,6 @@
 NSMutableArray *charsItemsArray;
 NSMutableArray *charsItemsArraySearchResults;
 bool isSearchViewEnable;
-
-
-
-
-
 
 #pragma -mark viewController lifeCycle methods
 - (void)viewDidLoad {
@@ -49,11 +43,10 @@ bool isSearchViewEnable;
     charsItemsArray=[NSMutableArray new];
     
    
-    //set delgates
+    //set delegate
     [self.charactersTableView setDelegate:self];
     [self.charactersTableView setDataSource:self];
     _searchBarController.delegate = self;
-    
     
     self.charactersTableView.emptyDataSetSource = self;
     self.charactersTableView.emptyDataSetDelegate = self;
@@ -62,8 +55,7 @@ bool isSearchViewEnable;
     self.charactersTableView.tableFooterView = [UIView new];
     
     
-    
-    // Setup pull and inifinte scrolling
+    // Setup pull and infinite scrolling
     
     CharactersListVC *weakSelf = self;
     // setup infinite scrolling
@@ -76,12 +68,6 @@ bool isSearchViewEnable;
          [weakSelf getCharactersWithLimit:weakSelf->limitWebServiceResults andOffset:weakSelf->offsetWebServiceResults];
     }];
 
-    
-    
-    
-    
-    
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -98,7 +84,6 @@ bool isSearchViewEnable;
     topBarView.hidden = isSearchViewEnable;
     topBarSearchView.hidden = !isSearchViewEnable;
     
-    
 }
 
 -(void) setOffsetWith:(NSInteger) value{
@@ -112,7 +97,6 @@ bool isSearchViewEnable;
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
    
-  
     [self searchAutocompleteWithSubstring:self.substring];
     [self.searchBarController resignFirstResponder];
     //[self.charactersTableView reloadData];
@@ -172,14 +156,10 @@ bool isSearchViewEnable;
     // @"ANY keywords.name CONTAINS[c] %@"
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", substring];
     
-    
     NSArray *arrayToBeSearched = [charsItemsArray copy];
     charsItemsArraySearchResults = [[arrayToBeSearched filteredArrayUsingPredicate:predicate] mutableCopy];
     [self.charactersTableView reloadData];
 }
-
-
-
 
 
 #pragma mark - TableViewDelegate
@@ -204,7 +184,6 @@ bool isSearchViewEnable;
             
         } else {
             
-        
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             
             //tableView.backgroundColor= UIColor.whiteColor;
@@ -213,12 +192,11 @@ bool isSearchViewEnable;
             topBarViewHUD.hidden=YES;
             numberOfSection=0;
             
-            
         }
     
-    }else{
+    } else {
     
-    if (charsItemsArray.count>=1) {
+    if (charsItemsArray.count >= 1) {
         
         tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         tableView.backgroundView.hidden=YES;
@@ -229,18 +207,16 @@ bool isSearchViewEnable;
         
         topBarView.hidden=NO;
         topBarSearchView.hidden=YES;
-         topBarViewHUD.hidden=NO;
+        topBarViewHUD.hidden=NO;
     } else {
         
-       
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
        // tableView.backgroundColor = UIColor.whiteColor;
         
         topBarView.hidden=NO;
         topBarSearchView.hidden=YES;
-         topBarViewHUD.hidden=YES;
+        topBarViewHUD.hidden=YES;
         numberOfSection=0;
-        
         
        }
     }
@@ -252,9 +228,9 @@ bool isSearchViewEnable;
     NSInteger numberOfRows = 0;
     
     if (isSearchViewEnable) {
-   numberOfRows =  [charsItemsArraySearchResults count];
-    }else{
-   numberOfRows =  [charsItemsArray count];
+       numberOfRows =  [charsItemsArraySearchResults count];
+    } else {
+       numberOfRows =  [charsItemsArray count];
     }
     
     return numberOfRows;
@@ -265,7 +241,6 @@ bool isSearchViewEnable;
     
     CGFloat rowHeight=140;
     if (isSearchViewEnable== YES){
-        
         rowHeight = 65;
     }
     
@@ -288,7 +263,6 @@ bool isSearchViewEnable;
         marvelCharacterObj=[charsItemsArray objectAtIndex:indexPath.row];
     }
     
-    
     CharacterTableViewCell  *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     cell.backgroundColor = [UIColor clearColor];
     
@@ -301,7 +275,6 @@ bool isSearchViewEnable;
     NSString * thumbNilImagURI = [marvelCharacterObj.thumbnail objectForKey:@"path"];
     NSString * imageVarinetName;
    
-    
     if (marvelCharacterObj.imgThumbnil) {
         
         cell.thumbNilImage.image = marvelCharacterObj.imgThumbnil;
@@ -309,7 +282,6 @@ bool isSearchViewEnable;
         [cell.imageProgress stopAnimating];
         
     }else{
-    
     
         if ([self IsEmpty:thumbNilImagURI]==YES || [thumbNilImagURI class]==[NSNull class]) {
             UIImage *img = [UIImage imageNamed:@"placeholder2_marvel"];
@@ -327,9 +299,7 @@ bool isSearchViewEnable;
              }
 
             NSString * imageUrl =[NSString stringWithFormat:@"%@%@",thumbNilImagURI,imageVarinetName];
-            
-            
-            
+   
             [UIImage downloadImageURL:imageUrl onSuccess:^(UIImage * _Nullable image) {
                 
                             cell.thumbNilImage.image = image;
@@ -346,13 +316,8 @@ bool isSearchViewEnable;
                             [cell.imageProgress stopAnimating];
             }];
             
-            
-            
-
         }
      }
-
-
 
     return cell;
 }
@@ -380,11 +345,6 @@ bool isSearchViewEnable;
 #pragma -mark DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
 {
-    
- 
- 
-    
-    
     UIView *emptyView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     [emptyView setBackgroundColor:[UIColor redColor]];
     
@@ -397,7 +357,7 @@ bool isSearchViewEnable;
     NSString *msg;
     if (isSearchViewEnable) {
         
-        msg =  @"Sorry!\n No characters matchs that name\n Please type another name";
+        msg =  @"Sorry!\n No characters matches that name\n Please type another name";
         
     }else{
         
@@ -407,9 +367,7 @@ bool isSearchViewEnable;
     
     
     // Display a message when the table is empty
-    
-    
-    
+
     NSString *text = msg;
     
     NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
@@ -432,20 +390,15 @@ bool isSearchViewEnable;
 #pragma -mark webservice call
 -(void)getCharactersWithLimit:(NSInteger)limit andOffset:(NSInteger) offset{
     
-    
-    HttpClient * httpClient =[HttpClient sharedInstance];
-    
+    HttpClient * httpClient = [HttpClient sharedInstance];
     
     NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
     // NSTimeInterval is defined as double
     NSNumber *timeStampObj = [NSNumber numberWithDouble: timeStamp];
     
-    
    // md5(ts+privateKey+publicKey)
     NSString *md5BuilderString=[NSString stringWithFormat:@"%@%@%@",timeStampObj,private_key,public_key];
     NSString *hashedMD5BuilderString=[self md5:md5BuilderString];
-    
-    
     
     NSMutableDictionary *params =[NSMutableDictionary new];
     
@@ -455,7 +408,6 @@ bool isSearchViewEnable;
     [params setObject:[NSString stringWithFormat:@"%ld",(long)limit] forKey:@"limit"];
     [params setObject:[NSString stringWithFormat:@"%ld",(long)offset] forKey:@"offset"];
 
-    
     NSString *url =[NSString stringWithFormat:@"%@%@",@"https://gateway.marvel.com:443/",@"v1/public/characters"];
    
     //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -470,9 +422,6 @@ bool isSearchViewEnable;
     [hud disco:NO];
     [hud showInView:self.view];
 
-
-    
-    
     [httpClient invokeAPI:url method:HTTPRequestGET parameters:params paramterFormat:paramterStructureTypeNone contentTypeValue:ContentTypeValue_None customContentTypeValueForHTTPHeaderField:nil onSuccess:^(NSData * _Nullable data) {
         [self.charactersTableView.pullToRefreshView stopAnimating];
         [self.charactersTableView.infiniteScrollingView stopAnimating];
@@ -498,7 +447,6 @@ bool isSearchViewEnable;
             [characterMutableArray addObject:marvelCharacterObj];
             
         }
-        
         
         [charsItemsArray addObjectsFromArray:[characterMutableArray copy]];
         
@@ -526,7 +474,6 @@ bool isSearchViewEnable;
         
             MarvelResponseDataWrapper * marvelResponseDataWrapper =[[MarvelResponseDataWrapper alloc] initWithDictionary:Json];
             
-            
             NSMutableArray * characterMutableArray=[NSMutableArray new];
             for (NSDictionary *dict in marvelResponseDataWrapper.results) {
                
@@ -536,7 +483,6 @@ bool isSearchViewEnable;
                 
             }
             
-            
             [charsItemsArray addObjectsFromArray:[characterMutableArray copy]];
             
             [self.charactersTableView reloadData];
@@ -545,7 +491,5 @@ bool isSearchViewEnable;
     }];
     
 }
-
-
 
 @end
