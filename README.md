@@ -13,16 +13,32 @@ A picture says a thousand words
 ![Alt text](https://github.com/amrangry/Marvel_iOSApp/blob/master/logo.png?raw=true "sample")
 
 
-# Application Description / Details:
+### Prerequisites
+1 - You need to setup pod first before you can run to do that follow the following 
 
+```
+* open terminal from finder
+* $ cd ../Project folder 
+* $ pod setup
+* $ pod install
+
+```
+
+2- Replace keys with your keys **ParentUIViewController.h**
+```
+#define public_key @"<your public key>"
+#define private_key @"<your private key>"
+
+```
+
+
+# Application Description / Details:
 Using this application, users will be able to browse through the Marvel
 library of characters. 
 The data is available by connecting to the Marvel API
 (http://developer.marvel.com/).
 
-
 You should use the following mockup and assets as a base for this challenge:
-
 iOS:
 https://marvelapp.com/279b309  
 assets: http://bit.ly/1LcMgwO
@@ -46,18 +62,6 @@ comics/series/stories/events sections. Those images can be fetched from the
 resourceURI and should be lazy loaded. That same behavior is expected
 when expanding those images.
 
-### Prerequisites
-You need to setup pod first before you can run to do that follow the following 
-
-```
-* open terminal from finder
-* $ cd ../Project folder 
-* $ pod setup
-* $ pod install
-
-```
-
-![ScreenShot](https://github.com/amrangry/Marvel_iOSApp/blob/master/first1.png?raw=true)
 <p align="center">
 <img style="-webkit-user-select: none;" src="https://github.com/amrangry/Marvel_iOSApp/blob/master/first1.png?raw=true">
 </p>
