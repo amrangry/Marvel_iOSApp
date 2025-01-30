@@ -43,21 +43,16 @@ typedef enum {
 
 +(HttpClient *_Nonnull)sharedInstance;
 
-
 -(void)invokeAPI:(NSString *_Nonnull)urlString method:(HTTPRequestMethod)method parameters:(id _Nullable)params paramterFormat:(ParamterStructureType) paramterStructureType
 contentTypeValue:(ContentTypeValue)contentTypeValueForHTTPHeaderField
 customContentTypeValueForHTTPHeaderField:(id _Nullable)customContentTypeValueForHTTPHeaderField
        onSuccess:(void (^_Nullable)(NSData * _Nullable data))success andFailure:(void (^_Nonnull)(NSString * _Nonnull error))failure;
 
-
-
-
 //
 // REST and unprompted HTTP Basic Authentication
 //
 @property (atomic) BOOL authenticationChallenge;
-@property (atomic ,retain) NSString * _Nullable username;
-@property (atomic ,retain) NSString * _Nullable password;
-
+@property (atomic, retain) NSString * _Nullable username;
+@property (atomic, retain) NSString * _Nullable password;
 
 @end
