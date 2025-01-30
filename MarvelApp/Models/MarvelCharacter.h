@@ -11,9 +11,6 @@
 
 @interface MarvelCharacter : NSObject
 
-
-
-
 @property (nonatomic, strong) NSString *idMarvelCharacter;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *descriptionMarvelCharacter;
@@ -25,7 +22,6 @@
 @property (nonatomic, strong) NSDictionary *stories;
 @property (nonatomic, strong) NSDictionary *events;
 @property (nonatomic, strong) NSArray *urls;
-
 
 @property (nonatomic, strong) UIImage *imgThumbnil;
 
