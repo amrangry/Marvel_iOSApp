@@ -10,8 +10,6 @@
 #import "ThreadHelper.h"
 @implementation HttpClient
 
-
-
 +(HttpClient *_Nonnull)sharedInstance{
 
         static HttpClient *_sharedClient = nil;
@@ -24,8 +22,6 @@
         return _sharedClient;
     }
     
-    
-    
     - (id)init {
         self = [super init];
         if (!self) {
@@ -34,9 +30,6 @@
         
         return self;
     }
-
-
-
 
 -(void)invokeAPI:(NSString *_Nonnull)urlString method:(HTTPRequestMethod)method parameters:(id _Nullable)params paramterFormat:(ParamterStructureType) paramterStructureType
 contentTypeValue:(ContentTypeValue)contentTypeValueForHTTPHeaderField
@@ -84,7 +77,6 @@ customContentTypeValueForHTTPHeaderField:(id _Nullable)customContentTypeValueFor
         else if (method == HTTPRequestPUT)     { [request setHTTPMethod:@"PUT"];    }
         else if (method == HTTPRequestDELETE)  { [request setHTTPMethod:@"DELETE"]; }
        
-        
         NSString *postDataString;
         
         if (paramterStructureType == paramterStructureTypeJSON) {
@@ -158,22 +150,16 @@ customContentTypeValueForHTTPHeaderField:(id _Nullable)customContentTypeValueFor
                     
                 }
                 
-                
             }
             
         }
         
         [request setHTTPBody:[postDataString dataUsingEncoding:NSUTF8StringEncoding]];
-        
     }
-    
-    
-    
     
     NSURL *url = [NSURL URLWithString:stringURL];
     [request setURL:[url standardizedURL]];
     
-   
      // set Headers
     //set request content type we MUST set this value.
     NSString * contentTypeValue=nil;
@@ -218,7 +204,6 @@ customContentTypeValueForHTTPHeaderField:(id _Nullable)customContentTypeValueFor
     }
     
     NSURLSession *session;
-   
 
     // 4 - add custom headers, including the Authorization header
     
@@ -246,12 +231,9 @@ customContentTypeValueForHTTPHeaderField:(id _Nullable)customContentTypeValueFor
         
         session =  [NSURLSession sessionWithConfiguration:sessionConfig delegate:self
                                             delegateQueue:nil];
-        
     }else{
         session = [NSURLSession sharedSession];
     }
-
-   
 
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
