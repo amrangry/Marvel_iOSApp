@@ -14,9 +14,4 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleTxtLabel;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *imageProgress;
 
-
-
-
-
-
 @end
