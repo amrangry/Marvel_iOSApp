@@ -10,8 +10,6 @@
 #import "ThreadHelper.h"
 @implementation UIImage (Extension)
 
-
-
 + (UIImage *_Nullable)imageWithColor:(UIColor *_Nonnull)color; {
     CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
     UIGraphicsBeginImageContext(rect.size);
@@ -25,7 +23,6 @@
     
     return image;
 }
-
 
 + (void) downloadImageURL:(NSString *_Nonnull) imageUrl onSuccess:(void (^_Nullable)(UIImage * _Nullable image))success andFailure:(void (^_Nonnull)(NSString * _Nonnull error))failure{
 
@@ -50,13 +47,9 @@
                                                                          runInUIThread(^{
                                                                              success(img);
                                                                          });
-                                                                         
-                                                                         
-                                                                       
                                                                      }
                                                                  });
                                               }else if (statusCode==404){
-                                                  
                                                   runInUIThread(^{
                                                       failure(@"404 Resource not found");
                                                   });
@@ -69,7 +62,6 @@
                                       }
                                   }];
     [task resume];
-
 }
 
 @end
