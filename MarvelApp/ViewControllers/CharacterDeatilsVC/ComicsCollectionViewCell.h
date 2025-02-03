@@ -13,9 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *bgImage;
 
-
 @property (weak, nonatomic) IBOutlet UIImageView *thumbnilImage;
-
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *animatorLoader;
 
