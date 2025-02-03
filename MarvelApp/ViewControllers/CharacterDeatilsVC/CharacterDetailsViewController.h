@@ -11,7 +11,6 @@
 
 #import "UIScrollView+EmptyDataSet.h"
 
-
 @interface CharacterDetailsViewController : ParentUIViewController<UICollectionViewDataSource,UICollectionViewDelegate,DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 {
 
@@ -21,16 +20,14 @@
     __weak IBOutlet UILabel *descriptionTxt;
     
     __weak IBOutlet UIImageView *coverImage;
-     __weak IBOutlet UIActivityIndicatorView *imageProgress;
-    
-    
+    __weak IBOutlet UIActivityIndicatorView *imageProgress;
+
     IBOutlet UICollectionView *comicsCollectionView;
     
     IBOutlet UICollectionView *stroiesCollectionView;
     
     IBOutlet UICollectionView *eventsCollectionView;
-    
-    
+
     IBOutlet UICollectionView * seriesCollectionView;
 }
 @property (weak, nonatomic) MarvelCharacter *marvelCharacterObj;
