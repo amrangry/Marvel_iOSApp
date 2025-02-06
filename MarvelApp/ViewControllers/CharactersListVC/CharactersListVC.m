@@ -42,7 +42,6 @@ bool isSearchViewEnable;
     isSearchViewEnable = NO;
     charsItemsArray=[NSMutableArray new];
     
-   
     //set delegate
     [self.charactersTableView setDelegate:self];
     [self.charactersTableView setDataSource:self];
@@ -53,7 +52,6 @@ bool isSearchViewEnable;
     
     // A little trick for removing the cell separators
     self.charactersTableView.tableFooterView = [UIView new];
-    
     
     // Setup pull and infinite scrolling
     
@@ -83,14 +81,11 @@ bool isSearchViewEnable;
     
     topBarView.hidden = isSearchViewEnable;
     topBarSearchView.hidden = !isSearchViewEnable;
-    
 }
 
 -(void) setOffsetWith:(NSInteger) value{
-    
     offsetWebServiceResults=offsetWebServiceResults + value;
 }
-
 
 #pragma mark - Search Bar Delegates -
 #pragma mark  Autocomplete SearchBar methods -
@@ -100,7 +95,6 @@ bool isSearchViewEnable;
     [self searchAutocompleteWithSubstring:self.substring];
     [self.searchBarController resignFirstResponder];
     //[self.charactersTableView reloadData];
-    
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
@@ -147,8 +141,6 @@ bool isSearchViewEnable;
     return YES;
 }
 
-
-
 - (void)searchAutocompleteWithSubstring:(NSString *)substring
 {
    
@@ -161,7 +153,6 @@ bool isSearchViewEnable;
     [self.charactersTableView reloadData];
 }
 
-
 #pragma mark - TableViewDelegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     // Return the number of sections.
@@ -171,7 +162,6 @@ bool isSearchViewEnable;
     if (isSearchViewEnable) {
         
         if (charsItemsArraySearchResults.count>=1) {
-            
             tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
             tableView.backgroundView.hidden=YES;
             //tableView.hidden=NO;
@@ -181,9 +171,7 @@ bool isSearchViewEnable;
             topBarSearchView.hidden=NO;
             topBarViewHUD.hidden=NO;
             numberOfSection = 1;
-            
         } else {
-            
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             
             //tableView.backgroundColor= UIColor.whiteColor;
@@ -191,7 +179,6 @@ bool isSearchViewEnable;
             topBarSearchView.hidden=NO;
             topBarViewHUD.hidden=YES;
             numberOfSection=0;
-            
         }
     
     } else {
@@ -236,7 +223,6 @@ bool isSearchViewEnable;
     return numberOfRows;
 }
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     CGFloat rowHeight=140;
@@ -247,7 +233,6 @@ bool isSearchViewEnable;
     return rowHeight;
     
 }
-
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -380,7 +365,6 @@ bool isSearchViewEnable;
     
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
-
 
 - (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView
 {
