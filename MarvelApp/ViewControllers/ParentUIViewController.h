@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-#define public_key @"<your public key>"
-#define private_key @"<your private key>"
+#define public_key @"<your public key>" // remove key
+#define private_key @"<your private key>" // remove key
 
 @interface ParentUIViewController : UIViewController
 -(BOOL) IsEmpty:(id) object;
