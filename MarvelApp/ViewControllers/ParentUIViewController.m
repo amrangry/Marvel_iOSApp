@@ -32,8 +32,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-
 #pragma -mark helper method
 
 -(NSString *) md5:(NSString *) input
@@ -55,6 +53,5 @@
     || ([object respondsToSelector:@selector(count)]
         && [(NSArray *) object count] == 0);
 }
-
 
 @end
