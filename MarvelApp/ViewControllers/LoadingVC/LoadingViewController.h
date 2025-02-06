@@ -12,7 +12,6 @@
 {
     IBOutlet UIImageView *gifImage;
     
-    
     __weak IBOutlet UIView *doneLoadingView;
     
     __weak IBOutlet UIImageView *doneLoadingGifImage;
