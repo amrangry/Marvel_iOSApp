@@ -18,10 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    
-    
-    
+
     doneLoadingView.hidden=YES;
     
     NSURL *url = [[NSBundle mainBundle] URLForResource:@"marvel-gif2" withExtension:@"gif"];
@@ -33,12 +30,9 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    
-    
+
     [self performSelector:@selector(doneLoading) withObject:self afterDelay:1];
-    
-   
-    
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,7 +40,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 -(void) doneLoading{
     
@@ -64,8 +57,7 @@
         ParentUIViewController *mainVC = [self.storyboard instantiateViewControllerWithIdentifier:@"CharactersListVC"];
         
         [[self navigationController ] pushViewController:mainVC animated:NO];
-        
-    
+
 }
 
 /*
