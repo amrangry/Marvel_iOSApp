@@ -18,7 +18,6 @@
     __weak IBOutlet UIImageView *doneLoadingGifImage;
 }
 
-
 /**
  *  This Function Used For Removing the Splash
  */
